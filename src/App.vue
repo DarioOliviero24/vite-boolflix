@@ -6,7 +6,8 @@ export default {
     return { 
       apikey: '3a4db1cb907349cc970d7a7e93db75c6',
       searchText: '',
-      movies:[]
+      movies:[],
+      series:[]
       
     }
   },
@@ -23,9 +24,22 @@ export default {
         }
       })
       .then((resp) => {
-        console.log(resp.data);
+        console.log('MOVIES', resp.data);
 
         this.movies = resp.data.results;
+      });
+      axios
+      .get('https://api.themoviedb.org/3/search/tv',{
+        params:{
+          api_key: this.apikey,
+          query: this.searchText,
+
+        }
+      })
+      .then((resp) => {
+        console.log('SERIES',resp.data);
+
+        this.series = resp.data.results;
       });
         
         
@@ -36,7 +50,7 @@ export default {
 </script>
 
 <template>
-  <div class="">
+  <div>
     <div class="container py-5">
       <div class="d-flex justify-content-between">
         <form @submit.prevent="search">
@@ -45,16 +59,17 @@ export default {
             Cerca
           </button>
         </form>
-
+        <h1>BOOLFLIX</h1>
       </div>
     </div>
     <div>
+      <h2 class="text-center py-5">
+        Movies
+      </h2>
+      <hr>
       <ol>
         <li v-for="(movie, i) in movies" :key="i">
           <ul>
-            <li>
-              {{ movie.poster_path }}
-            </li>
             <li>
               Titolo: {{ movie.title }}
             </li>
@@ -62,10 +77,55 @@ export default {
               Titolo originale: {{ movie.original_title }}
             </li>
             <li>
-              Lingua:{{ movie.original_language }}
+              <template v-if="movie.original_language == 'en'">
+                Lingua: <img src="/img/flags/uk.gif" alt="">
+              </template>
+              <template v-else-if="movie.original_language == 'it'">
+                Lingua: <img src="/img/flags/it.gif" alt="">
+              </template>
+              <template v-else-if="movie.original_language == 'jp'">
+                Lingua: <img src="/img/flags/ja.gif" alt="">
+              </template>
+              <template v-else-if="movie.original_language == 'us'">
+                Lingua: <img src="/img/flags/us.gif" alt="">
+              </template>
             </li>
             <li>
               Voto:{{ movie.vote_average }}
+            </li>
+          </ul>
+        </li>
+      </ol>
+    </div>
+    <div>
+      <h2 class="text-center py-5">
+        Series
+      </h2>
+      <ol>
+        <li v-for="(serie, i) in series" :key="i">
+          <ul>
+            <li>
+              Titolo: {{ serie.name }}
+            </li>
+            <li>
+              Titolo originale: {{ serie.original_name }}
+            </li>
+            <li>
+              <template v-if="serie.original_language == 'en'">
+                Lingua: <img src="/img/flags/uk.gif" alt="">
+              </template>
+              <template v-else-if="serie.original_language == 'it'">
+                Lingua: <img src="/img/flags/it.gif" alt="">
+              </template>
+              <template v-else-if="serie.original_language == 'jp'">
+                Lingua: <img src="/img/flags/ja.gif" alt="">
+              </template>
+              <template v-else-if="serie.original_language == 'us'">
+                Lingua: <img src="/img/flags/us.gif" alt="">
+              </template>
+            </li>
+            <li>
+              Voto:{{ serie.vote_average }}
             </li>
           </ul>
           <hr>
@@ -76,13 +136,17 @@ export default {
 </template>
 
 <style lang="scss">
-.BG{
-  background-color: black;
-  color: white;
-  height: 100vh;
-}
+
 
 // Import all of Bootstrap's CSS
 @import "bootstrap/scss/bootstrap";
-
+img{
+  max-width: 30px;
+}
+h1{
+  color: red;
+}
+h2{
+  color: red;
+}
 </style>
