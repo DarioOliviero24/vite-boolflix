@@ -37,8 +37,7 @@ export default {
   </div>
 </template>
 
-<style lang="scss">
-
-// Import all of Bootstrap's CSS
+<style>
 @import "bootstrap/scss/bootstrap";
+
 </style>
