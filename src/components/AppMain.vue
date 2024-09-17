@@ -9,11 +9,11 @@ export default {
 </script>
 
 <template>
-  <header class="container py-5">
+  <div class="container py-5">
     <h1>
-      Header
+        Main
     </h1>
-  </header>
+  </div>
 </template>
 
 <style lang="scss" scoped>
